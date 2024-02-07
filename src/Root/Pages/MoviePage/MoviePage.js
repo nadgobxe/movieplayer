@@ -1,17 +1,36 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Player } from 'video-react';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LocalPlayIcon from '@mui/icons-material/LocalPlay';
+import Tooltip from '@mui/material/Tooltip';
 
 
 export default function MoviePage() {
     const [movies, setMovies] = useState([]);
     const { movieId } = useParams(); // Get the movieId from the URL
     const [loading, setLoading] = useState(true); // Add a loading state
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+                light: '#ffffff',
+                main: '#fff',
+                dark: '#fff',
+                contrastText: '#fff',
+            },
+            secondary: {
+                light: '#ff7961',
+                main: '#f44336',
+                dark: '#ba000d',
+                contrastText: '#000',
+            },
+        },
+    });
 
     useEffect(() => {
         fetch('http://localhost:3000/movies')
@@ -42,9 +61,9 @@ export default function MoviePage() {
 
     if (loading) {
         return (
-            <div className="bg-local p-24" style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <div className="bg-zinc-900 p-24 shadow-2xl rounded-[25px]">
-                    <div className="grid grid-cols-2 gap-4 p-24 text-white">
+            <div className="bg-local p-6 md:p-24" style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                <div className="bg-zinc-900 p-6 md:p-24 shadow-2xl rounded-[25px]">
+                    <div className="grid grid-cols-1 md:grid grid-cols-2 gap-4 p-24 text-white">
                         <Stack spacing={2} alignItems="flex-start">
                             {/* Movie Title */}
                             <Skeleton variant="text" width={300} height={60} />
@@ -84,52 +103,24 @@ export default function MoviePage() {
     // Display movie details or a loading message
 
     return (
-        <div className="bg-local p-24" style={{ backgroundImage: `url(${movie.MovieBig})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            <div className="bg-zinc-900 p-24 shadow-2xl rounded-[25px]">
-                <div className="grid grid-cols-2 gap-4 p-24 text-white">
-                    <div className="col-span-2 mb-4">
-                        <h2 className="text-4xl">{movie.movieTitle}</h2>
-                    </div>
-                    <div className="col-span-2 grid grid-cols-4 gap-4">
-                        <div className="shadow-2xl rounded-[25px]"><img src={movie.moviePic} alt={movie.movieTitle} className="contain h-96" /></div>
-                        <div className="col-span-3 grid grid-cols-3 gap-4">
-                            <div className="col-span-3 flex flex-row items-start gap-4">
-                                <div>{movie.movieGenre}</div>
-                                <div className="flex items-center">
-                                    {movie.movieYear && (
-                                        <>
-                                            <span className="mx-2">|</span>
-                                            <span>{movie.movieYear}</span>
-                                        </>
-                                    )}
-                                </div>
-                                <div className="flex items-center">
-                                    {movie.movieRating && (
-                                        <>
-                                            <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/171_Imdb_logo_logos-512.png" alt="IMDb Logo" className="w-5 h-5" />
-                                            <span className="ml-1">{movie.movieRating}</span>
-                                        </>
-                                    )}
-                                </div>
-                                <div className="ml-4">{movie.movieActors}</div>
-                            </div>
-                            <div className="col-span-3"><p>{movie.movieDescription}</p></div>
-                            <div className="col-span-3"> <Button variant="contained">Hello world</Button>
-                                <IconButton aria-label="add an alarm">
-                                    <AlarmIcon className="text-white hover:text-green-300" />
-                                </IconButton>
-                            </div>
+        <>
+            <div
+                className="flex flex-col gap-4 justify-top h-screen bg-slate-300">
+                <div className="pt-8">
+                    <div className="bg-zinc-50 w-5/6 pt-5 pb-5 mx-auto min-h-80 shadow-lg rounded-[25px]" >
+                        <div className="bg-zinc-50 w-5/6 mx-auto min-h-80 rounded-bl-[25px] rounded-tl-[25px] rounded-tr-[25px] bg-cover bg-center"  style={{ backgroundImage: `url(${movie.MovieBig})`, backgroundColor: '#000' }}>
                         </div>
+                        <div className="relative w-5/6 mx-auto grid grid-cols-3 gap-4">
+                                <div>
+                                <img src={movie.moviePic} alt={movie.movieTitle} className="contain p-1 shadow-2xl rounded-lg absolute h-24 -top-12 left-4 md:h-48"/>
+                                </div>
+                                <div>Text Aici</div>
+                                <div>Play Button</div>
+
+                            </div>
                     </div>
-                    <div className="col-span-3"><p>{movie.MovieSubtitle}</p></div>
-                    <div className="col-span-3"><Player
-                        playsInline
-                        poster={movie.moviePic}
-                        src={movie.MovieUrl}
-                        controls={true}
-                    /></div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
