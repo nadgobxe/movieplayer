@@ -33,12 +33,6 @@
                                         <LocalPlayIcon  sx={{ color: '#fff',  fontSize: 40, transition: "transform 0.4s ease", '&:hover': { color: 'green.300', transform: "scale(1.5)"} }} />
                                     </IconButton>
                                 </Tooltip>
-
-                                <Tooltip title="Add an Alarm">
-                                    <IconButton aria-label="add an alarm" >
-                                        <AlarmIcon sx={{ color: '#fff',  fontSize: 40, transition: "transform 0.4s ease", '&:hover': { color: 'green.300', transform: "scale(1.5)"} }} />
-                                    </IconButton>
-                                </Tooltip>
                             </ThemeProvider>
                         </div>
                     </div>

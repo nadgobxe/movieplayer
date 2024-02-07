@@ -12,6 +12,7 @@ function App() {
    <>
    <Header/>
    <Root/>
+   {console.log('API URL:', process.env.REACT_APP_API_URL)}
    {/* <FetchData /> */}
    </>
   );
